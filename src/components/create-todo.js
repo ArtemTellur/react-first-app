@@ -1,57 +1,36 @@
 import React from 'react';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+import {green300, green200} from 'material-ui/styles/colors'
 
-export default class CreateTodo extends React.Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      isValid: null
-    };
-  }
-  
-  renderValidation() {
-    if (this.state.isValid) {
-      return (
-        <div style={{color: 'red'}}>{this.state.isValid}</div>
-      );
-    }
-    else return null;
-  }
-  
-  render() {
-    return (
-      <form onSubmit={ this.handleCreate.bind(this)}>
-        <input type="text" ref="createInput"/>
-        <button>Create</button>
-        {this.renderValidation()}
-      </form>
-    )
-  }
-
-  handleCreate(event) {
-    event.preventDefault();
-
-    const createInput = this.refs.createInput;
-    const task = createInput.value;
-    const validateInput = this.validateInput(task);
-
-    if (validateInput) {
-      this.setState({isValid: validateInput});
-      return;
-    }
-
-    this.setState({isValid: null});
-    this.props.createTask(task);
-    this.refs.createInput.value = '';
-  }
-
-  validateInput(task) {
-    if (!task) {
-      return 'Please enter the value.'
-    }
-    else if(_.find(this.props.todoList, (todo) => todo.task === task)) {
-      return 'Task already exists.';
-    }
-    return null;
+const styles = {
+  underlineStyle: {
+    borderBottomColor: green200
+  },
+  underlineFocusStyle: {
+    borderBottomColor: green300
   }
 };
+
+export default class CreateTodo extends React.Component {
+
+  render() {
+    return (
+      <form method="GET" className="create-todo-container">
+        <TextField id="create-todo-input"
+                   className={"input-create"}
+                   hintText="Enter the new task"
+                   underlineFocusStyle={styles.underlineFocusStyle}
+                   underlineStyle={styles.underlineStyle}
+        />
+
+        <FlatButton label="Add"
+                    backgroundColor={green300}
+                    hoverColor={green200}
+                    className={"btn btn-add"}
+                    type="submit"
+        />
+      </form>
+    );
+  }
+}

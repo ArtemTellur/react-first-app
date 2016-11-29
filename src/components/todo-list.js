@@ -1,23 +1,44 @@
 import React from 'react';
-import TodoListHeader from 'components/todo-list-header';
-import _ from 'lodash';
-import TodoListItem from 'components/todo-list-item';
+import {List} from 'material-ui/List';
+import Checkbox from 'material-ui/Checkbox';
+import TodoListItem from 'components/todo-list-item'
+
+const todoList = [
+  {
+    task: "Create Material Design",
+    isComplered: "true"
+  },
+  {
+    task: "Go home",
+    isComplered: "true"
+  },
+  {
+    task: "PMC!!!",
+    isComplered: "true"
+  },
+  {
+    task: "Learn JavaScript",
+    isComplered: "true"
+  },
+  {
+    task: "Buy new stickers for office",
+    isComplered: "true"
+  },
+  {
+    task: "Read react documentation",
+    isComplered: "true"
+  }
+];
 
 export default class TodoList extends React.Component {
-  renderItems() {
-    const props = _.omit(this.props, 'todoList');
-
-    return _.map(this.props.todoList, (todo, index) => <TodoListItem key={index} {...todo} {...props}/>)
-  };
 
   render() {
     return (
-      <table>
-        <TodoListHeader />
-        <tbody>
-          { this.renderItems() }
-        </tbody>
-      </table>
+      <List>
+        {todoList.map(function(elem, index) {
+          return <TodoListItem key={index} {...elem}/>
+        })}
+      </List>
     );
   }
-};
+}

@@ -1,7 +1,11 @@
 import React from 'react';
-import TodoList from 'components/todo-list';
-import CreateTodo from 'components/create-todo';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import _ from 'lodash';
+
+import Header from 'components/header';
+import CreateTodo from 'components/create-todo';
+import TodoList from 'components/todo-list';
 
 const todoList = [
   {
@@ -13,6 +17,8 @@ const todoList = [
     isCompleted: false
   }
 ];
+
+injectTapEventPlugin();
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,40 +32,16 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <CreateTodo todoList={this.state.todoList} createTask={ this.createTask.bind(this) } >tits</CreateTodo>
-        <TodoList 
-          todoList={ this.state.todoList } 
-          toggleTask={this.toggleTask.bind(this)} 
-          saveTask={this.saveTask.bind(this)}
-          deleteTask={this.deleteTask.bind(this)}
-        />
+        <MuiThemeProvider>
+          <div>
+            <Header />
+            <div className={"todo-list-container"}>
+              <CreateTodo />
+            </div>
+            <TodoList />
+          </div>
+        </MuiThemeProvider>
       </div>
     );
-  }
-
-  toggleTask(task) {
-    const foundTodo = _.find(this.state.todoList, todo => todo.task === task);
-    foundTodo.isCompleted = !foundTodo.isCompleted;
-    this.setState({todoList: this.state.todoList});
-  }
-
-  createTask(task) {
-    this.state.todoList.push({
-      task,
-      isCompleted: false
-    });
-
-    this.setState({ todoList: this.state.todoList })
-  }
-
-  saveTask(oldTask, newTask) {
-    const foundTask = _.find(this.state.todoList, todo => todo.task === oldTask);
-    foundTask.task = newTask;
-    this.setState({todoList: this.state.todoList});
-  }
-
-  deleteTask(task) {
-    _.remove(this.state.todoList, todo => todo.task === task);
-    this.setState({todoList: this.state.todoList});
   }
 }
