@@ -9,11 +9,27 @@ import TodoList from 'components/todo-list';
 
 const todoList = [
   {
-    task: 'create part of app',
+    task: "Create Material Design",
+    isCompleted: false
+  },
+  {
+    task: "Go home",
     isCompleted: true
   },
   {
-    task: 'create design',
+    task: "PMC!!!",
+    isCompleted: false
+  },
+  {
+    task: "Learn JavaScript",
+    isCompleted: true
+  },
+  {
+    task: "Buy new stickers for office",
+    isCompleted: true
+  },
+  {
+    task: "Read react documentation",
     isCompleted: false
   }
 ];
@@ -27,6 +43,32 @@ export default class App extends React.Component {
     this.state = {
       todoList
     }
+
+    this.createTask = this.createTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
+    this.toggleTask = this.toggleTask.bind(this);
+  }
+
+  deleteTask(list) {
+    this.setState({
+      todoList: list
+    });
+  }
+
+  toggleTask(list) {
+    this.setState({
+      todoList: list
+    });
+  }
+
+  createTask(task) {
+    this.state.todoList.unshift({
+      task,
+      isCompleted: false
+    });
+    this.setState({
+      todoList: this.state.todoList
+    });
   }
 
   render() {
@@ -36,9 +78,9 @@ export default class App extends React.Component {
           <div>
             <Header />
             <div className={"todo-list-container"}>
-              <CreateTodo />
+              <CreateTodo todoList={todoList} createTask={this.createTask}/>
             </div>
-            <TodoList />
+            <TodoList todoList={todoList} deleteTask={this.deleteTask} toggleTask={this.toggleTask} />
           </div>
         </MuiThemeProvider>
       </div>
