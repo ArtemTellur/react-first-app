@@ -3,40 +3,25 @@ import {List} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import TodoListItem from 'components/todo-list-item'
 
-const todoList = [
-  {
-    task: "Create Material Design",
-    isComplered: "true"
-  },
-  {
-    task: "Go home",
-    isComplered: "true"
-  },
-  {
-    task: "PMC!!!",
-    isComplered: "true"
-  },
-  {
-    task: "Learn JavaScript",
-    isComplered: "true"
-  },
-  {
-    task: "Buy new stickers for office",
-    isComplered: "true"
-  },
-  {
-    task: "Read react documentation",
-    isComplered: "true"
-  }
-];
-
 export default class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todoList: this.props.todoList
+    };
+  }
 
   render() {
+    let self = this;
     return (
       <List>
-        {todoList.map(function(elem, index) {
-          return <TodoListItem key={index} {...elem}/>
+        {this.state.todoList.map(function(elem, index) {
+          return <TodoListItem key={index} todoList={self.state.todoList} 
+                               deleteTask={self.props.deleteTask}
+                               toggleTask={self.props.toggleTask}
+                               editTask={self.props.editTask}
+            {...elem}/>
         })}
       </List>
     );
