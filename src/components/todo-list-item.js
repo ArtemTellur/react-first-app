@@ -29,6 +29,7 @@ export default class TodoListItem extends React.Component {
     this.onEditingClick = this.onEditingClick.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
+    this.onSave = this.onSave.bind(this);
 
     this.state = {
       todoList: this.props.todoList,
@@ -56,6 +57,17 @@ export default class TodoListItem extends React.Component {
     event.preventDefault();
   }
 
+  onSave(event) {
+    let task = this.state.task;
+    let oldTask = this.props.task;
+    let foundTask = _.find(this.state.todoList, todo => todo.task === oldTask);
+    foundTask.task = task;
+    this.setState({
+      isEditing: false
+    });
+    this.props.editTask(this.state.todoList);
+  }
+
   renderControlButtons() {
     return (
       <div>
@@ -72,7 +84,7 @@ export default class TodoListItem extends React.Component {
   renderEditingModeButtons() {
     return (
       <div>
-        <IconButton tooltip="Save" tooltipPosition="top-left">
+        <IconButton tooltip="Save" tooltipPosition="top-left" onClick={this.onSave}>
           <ContentSave />
         </IconButton>
         <IconButton tooltip="Cancel" tooltipPosition="top-left" onClick={this.onCancelClick}>
@@ -84,7 +96,8 @@ export default class TodoListItem extends React.Component {
 
   onEditingClick(event) {
     this.setState({
-      isEditing: true
+      isEditing: true,
+      task: this.props.task
     });
 
     event.stopPropagation();
@@ -100,7 +113,7 @@ export default class TodoListItem extends React.Component {
   onCancelClick() {
     this.setState({
       isEditing: false,
-      task: this.props.task
+      task: ''
     });
   }
 

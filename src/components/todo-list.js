@@ -20,6 +20,7 @@ export default class TodoList extends React.Component {
           return <TodoListItem key={index} todoList={self.state.todoList} 
                                deleteTask={self.props.deleteTask}
                                toggleTask={self.props.toggleTask}
+                               editTask={self.props.editTask}
             {...elem}/>
         })}
       </List>

@@ -47,6 +47,7 @@ export default class App extends React.Component {
     this.createTask = this.createTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.toggleTask = this.toggleTask.bind(this);
+    this.editTask = this.editTask.bind(this);
   }
 
   deleteTask(list) {
@@ -71,6 +72,12 @@ export default class App extends React.Component {
     });
   }
 
+  editTask(list) {
+    this.setState({
+      todoList: list
+    });
+  }
+
   render() {
     return (
       <div>
@@ -80,7 +87,10 @@ export default class App extends React.Component {
             <div className={"todo-list-container"}>
               <CreateTodo todoList={todoList} createTask={this.createTask}/>
             </div>
-            <TodoList todoList={todoList} deleteTask={this.deleteTask} toggleTask={this.toggleTask} />
+            <TodoList todoList={todoList}
+                      deleteTask={this.deleteTask}
+                      toggleTask={this.toggleTask}
+                      editTask={this.editTask}/>
           </div>
         </MuiThemeProvider>
       </div>
